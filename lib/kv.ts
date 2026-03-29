@@ -32,12 +32,18 @@ export async function updateTodayStatus(action: string, value?: string): Promise
   const now = new Date().toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo', hour: '2-digit', minute: '2-digit' });
 
   switch (action) {
-    case 'wakeup': current.wakeup = now; break;
-    case 'sleep': current.sleep = now; break;
-    case 'exercise': current.exercise = true; break;
-    case 'outing': current.outing = now; break;
-    case 'return': current.return = now; break;
-    case 'meal': current.meals = [...current.meals, now]; break;
+    case 'wakeup': current.wakeup = value ?? now; break;
+    case 'sleep': current.sleep = value ?? now; break;
+    case 'exercise': current.exercise = !current.exercise; break;
+    case 'outing': current.outing = value ?? now; break;
+    case 'return': current.return = value ?? now; break;
+    case 'meal':
+      if (value === 'decrement') {
+        current.meals = current.meals.slice(0, -1);
+      } else {
+        current.meals = [...current.meals, value ?? now];
+      }
+      break;
   }
 
   try {

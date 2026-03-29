@@ -5,7 +5,7 @@ const VALID_ACTIONS = ['wakeup', 'sleep', 'exercise', 'outing', 'return', 'meal'
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const { action, token } = body;
+  const { action, token, value } = body;
 
   if (token !== process.env.WEBHOOK_SECRET) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -15,6 +15,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
   }
 
-  const updated = await updateTodayStatus(action);
+  const updated = await updateTodayStatus(action, value);
   return NextResponse.json({ success: true, status: updated });
 }
