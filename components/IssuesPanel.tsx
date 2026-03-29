@@ -1,3 +1,5 @@
+'use client';
+import { useState } from 'react';
 import { GitHubIssue } from '@/lib/types';
 
 const LABEL_COLORS: Record<string, string> = {
@@ -8,13 +10,29 @@ const LABEL_COLORS: Record<string, string> = {
   urgent: 'text-red-400',
 };
 
-export default function IssuesPanel({ issues }: { issues: GitHubIssue[] }) {
+export default function IssuesPanel({ issues: initialIssues }: { issues: GitHubIssue[] }) {
+  const [issues, setIssues] = useState(initialIssues);
+  const [closing, setClosing] = useState<number | null>(null);
+
+  const handleClose = async (issueNumber: number) => {
+    setClosing(issueNumber);
+    const res = await fetch('/api/close-issue', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ issueNumber }),
+    });
+    if (res.ok) {
+      setIssues(issues.filter(i => i.number !== issueNumber));
+    }
+    setClosing(null);
+  };
+
   return (
     <div className="bg-gray-900 border border-gray-700 rounded-lg p-4">
       <h2 className="text-yellow-400 font-mono text-sm font-bold mb-3 tracking-widest">▶ ACTIVE QUESTS ({issues.length})</h2>
-      <div className="space-y-2 max-h-48 overflow-y-auto">
+      <div className="space-y-2 max-h-64 overflow-y-auto">
         {issues.map(issue => (
-          <div key={issue.id} className="flex items-start gap-2 text-sm">
+          <div key={issue.id} className="flex items-start gap-2 text-sm group">
             <span className="text-gray-600 font-mono text-xs mt-0.5">#{issue.number}</span>
             <div className="flex-1">
               <span className="text-gray-300 font-mono text-xs">{issue.title}</span>
@@ -26,6 +44,13 @@ export default function IssuesPanel({ issues }: { issues: GitHubIssue[] }) {
                 ))}
               </div>
             </div>
+            <button
+              onClick={() => handleClose(issue.number)}
+              disabled={closing === issue.number}
+              className="opacity-0 group-hover:opacity-100 transition-opacity text-xs font-mono px-2 py-0.5 rounded border border-green-700 text-green-500 hover:bg-green-900 disabled:opacity-30 whitespace-nowrap"
+            >
+              {closing === issue.number ? '...' : 'DONE'}
+            </button>
           </div>
         ))}
       </div>
