@@ -56,7 +56,13 @@ export default function Dashboard({ initialStatus, events, issues }: Props) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <StatusPanel status={status} />
         <CalendarPanel events={events} />
-        <IssuesPanel issues={issues} />
+        <div className="md:col-span-2">
+          <IssuesPanel issues={issues} />
+        </div>
+      </div>
+
+      {/* Academic compact bar */}
+      <div className="mt-4">
         <AcademicPanel />
       </div>
     </div>
