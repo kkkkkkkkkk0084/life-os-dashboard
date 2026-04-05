@@ -1,21 +1,176 @@
 @import "tailwindcss";
 
-* {
-  box-sizing: border-box;
+/* ─── Design Tokens (Dovetail-based) ──────────────── */
+@theme {
+  --color-bg: #0A0A0A;
+  --color-card: #141414;
+  --color-card-border: #1E1E1E;
+  --color-hover: #1a1a1a;
+  --color-text-1: #ffffff;
+  --color-text-2: #A7A7A7;
+  --color-text-3: #666666;
+  --color-accent: #848CD0;
+  --color-accent-glow: rgba(132,140,208,0.15);
+  --color-green: #5bb98c;
+  --color-red: #ef6461;
+  --color-amber: #e5b94e;
+  --color-blue: #6798FF;
+  --color-border-subtle: rgba(255,255,255,0.06);
+  --color-border-btn: rgba(255,255,255,0.24);
 }
+
+* { box-sizing: border-box; }
 
 body {
-  background-color: #0d0f14;
-  scrollbar-gutter: stable;
+  background-color: var(--color-bg);
+  color: var(--color-text-1);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-::-webkit-scrollbar {
-  width: 4px;
+::selection {
+  background: rgba(132,140,208,0.3);
+  color: #fff;
 }
-::-webkit-scrollbar-track {
-  background: #1a1d24;
+
+/* ─── Scrollbar ───────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #3a3a3a; }
+
+/* ─── Animations ──────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-::-webkit-scrollbar-thumb {
-  background: #374151;
-  border-radius: 2px;
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.05); }
+}
+
+@keyframes fillBar {
+  from { width: 0; }
+}
+
+@keyframes countIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.6s ease both;
+}
+.animate-fade-in {
+  animation: fadeIn 0.5s ease both;
+}
+
+/* Stagger delays */
+.delay-1 { animation-delay: 50ms; }
+.delay-2 { animation-delay: 100ms; }
+.delay-3 { animation-delay: 150ms; }
+.delay-4 { animation-delay: 200ms; }
+.delay-5 { animation-delay: 250ms; }
+.delay-6 { animation-delay: 300ms; }
+.delay-7 { animation-delay: 350ms; }
+.delay-8 { animation-delay: 400ms; }
+
+/* ─── Card base ───────────────────────────────────── */
+.card {
+  background: var(--color-card);
+  border: 1px solid var(--color-card-border);
+  border-radius: 12px;
+  transition: border-color 300ms, transform 300ms;
+  position: relative;
+  overflow: hidden;
+}
+.card:hover {
+  border-color: rgba(255,255,255,0.12);
+  transform: translateY(-2px);
+}
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: radial-gradient(300px circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.025), transparent 60%);
+  transition: opacity 300ms;
+  pointer-events: none;
+}
+.card:hover::after { opacity: 1; }
+
+/* Card without hover lift */
+.card-flat {
+  background: var(--color-card);
+  border: 1px solid var(--color-card-border);
+  border-radius: 12px;
+  transition: border-color 300ms;
+  overflow: hidden;
+}
+.card-flat:hover {
+  border-color: rgba(255,255,255,0.12);
+}
+
+/* ─── Button styles (Dovetail) ─────────���──────────── */
+.btn-primary {
+  background: var(--color-text-1);
+  color: var(--color-bg);
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: background 200ms;
+}
+.btn-primary:hover { background: #CECECE; }
+
+.btn-secondary {
+  background: rgba(255,255,255,0.08);
+  color: var(--color-text-1);
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  border: 1px solid var(--color-border-btn);
+  cursor: pointer;
+  transition: background 200ms;
+}
+.btn-secondary:hover { background: #313131; }
+
+/* ─── Section title ───────────────────────────────── */
+.section-title {
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  color: var(--color-text-1);
+}
+
+/* ─── Progress bar ────────────────────────────────── */
+.progress-track {
+  height: 3px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 1s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ─── Mono label (Dovetail style) ─────���───────────── */
+.mono-label {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--color-text-3);
 }

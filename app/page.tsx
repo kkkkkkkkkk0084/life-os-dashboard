@@ -1,16 +1,5 @@
-import { getTodayStatus } from '@/lib/kv';
-import { getTodayEvents } from '@/lib/google-calendar';
-import { getOpenIssues } from '@/lib/github';
-import Dashboard from '@/components/Dashboard';
+import Overview from '@/components/Overview';
 
-export const revalidate = 60;
-
-export default async function Home() {
-  const [status, events, issues] = await Promise.all([
-    getTodayStatus(),
-    getTodayEvents(),
-    getOpenIssues(),
-  ]);
-
-  return <Dashboard initialStatus={status} events={events} issues={issues} />;
+export default function Home() {
+  return <Overview />;
 }

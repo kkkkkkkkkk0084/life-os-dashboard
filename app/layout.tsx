@@ -1,31 +1,43 @@
 import type { Metadata } from "next";
-import { Geist_Mono } from "next/font/google";
+import { Inter, Space_Grotesk, JetBrains_Mono, EB_Garamond } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
 
-const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-display",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+});
+
+const ebGaramond = EB_Garamond({
+  subsets: ["latin"],
+  variable: "--font-serif",
+});
 
 export const metadata: Metadata = {
-  title: "LIFE OS",
-  description: "Keito Ohashi — Status Board",
+  title: "Life OS",
+  description: "Your life, quantified.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">
-      <body className={`${geistMono.variable} bg-[#0d0f14] text-white`}>
-        <div className="max-w-6xl mx-auto p-4">
-          <div className="border-b border-gray-800 pb-4 mb-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <h1 className="text-green-400 font-mono text-xl font-bold tracking-widest">LIFE OS</h1>
-                <p className="text-gray-500 font-mono text-xs">KEITO OHASHI — STATUS BOARD</p>
-              </div>
-            </div>
-            <Nav />
-          </div>
+      <body
+        className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${ebGaramond.variable} font-[family-name:var(--font-inter)]`}
+      >
+        <Nav />
+        <main className="pt-[88px]">
           {children}
-        </div>
+        </main>
       </body>
     </html>
   );
