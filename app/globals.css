@@ -25,6 +25,11 @@ html, body {
   overscroll-behavior: none;
 }
 
+html {
+  /* スクロールバーの有無による左右シフトを防ぐ */
+  scrollbar-gutter: stable;
+}
+
 body {
   background-color: var(--color-bg);
   color: var(--color-text-1);
