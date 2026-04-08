@@ -3,11 +3,11 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const NAV_ITEMS = [
-  { href: '/', label: 'Overview', short: 'Home' },
-  { href: '/missions', label: 'Missions', short: 'Tasks' },
-  { href: '/schedule', label: 'Schedule', short: 'Cal' },
-  { href: '/academic', label: 'Academic', short: 'Study' },
-  { href: '/health', label: 'Health', short: 'Health' },
+  { href: '/', label: 'Overview' },
+  { href: '/missions', label: 'Missions' },
+  { href: '/schedule', label: 'Schedule' },
+  { href: '/academic', label: 'Academic' },
+  { href: '/health', label: 'Health' },
 ];
 
 export default function Nav() {
@@ -66,7 +66,7 @@ export default function Nav() {
         }}
       >
         <div className="flex items-stretch justify-around h-14">
-          {NAV_ITEMS.map(({ href, short }) => {
+          {NAV_ITEMS.map(({ href, label }) => {
             const isActive = pathname === href || (href !== '/' && pathname.startsWith(href));
             return (
               <Link
@@ -81,7 +81,7 @@ export default function Nav() {
                     isActive ? 'bg-accent' : 'bg-transparent'
                   }`}
                 />
-                <span className="text-[11px] font-medium tracking-tight">{short}</span>
+                <span className="text-[10px] font-medium tracking-tight">{label}</span>
               </Link>
             );
           })}
