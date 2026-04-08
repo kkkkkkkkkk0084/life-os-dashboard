@@ -1,52 +1,80 @@
 import { ACADEMIC } from '@/constants/academic';
-import ProgressBar from '@/components/ui/ProgressBar';
+
+type CategoryRow = {
+  label: string;
+  acquired: number;
+  required: number;
+};
+
+const CATEGORIES: CategoryRow[] = [
+  { label: '総合教育科目', acquired: 6, required: ACADEMIC.required.general },
+  { label: '専門教育科目', acquired: 30, required: ACADEMIC.required.specialized },
+  { label: '卒業論文', acquired: 0, required: ACADEMIC.required.thesis },
+];
+
+function ProgressRow({ label, value, max }: { label: string; value: number; max: number }) {
+  const pct = Math.min((value / max) * 100, 100);
+  return (
+    <div>
+      <div className="flex items-baseline justify-between mb-1.5">
+        <span className="text-sm text-text-2">{label}</span>
+        <span className="font-[family-name:var(--font-mono)] text-xs text-text-3">
+          {value} / {max}
+        </span>
+      </div>
+      <div className="h-1.5 rounded-full overflow-hidden bg-white/5">
+        <div
+          className="h-full rounded-full bg-gradient-to-r from-accent to-[#a4abdf]"
+          style={{ width: `${pct.toFixed(2)}%` }}
+        />
+      </div>
+    </div>
+  );
+}
 
 export default function AcademicPage() {
   const pct = Math.round((ACADEMIC.acquired / ACADEMIC.total) * 100);
   const remaining = ACADEMIC.total - ACADEMIC.acquired;
 
   return (
-    <div>
-      <h2 className="text-purple-400 font-mono text-lg font-bold tracking-widest mb-6">▶ ACADEMIC STATUS</h2>
+    <div className="max-w-3xl mx-auto px-8 py-10">
+      <header className="mb-8">
+        <p className="text-text-3 text-sm mb-1">Academic</p>
+        <h1 className="section-title">単位取得進捗</h1>
+      </header>
 
-      {/* 進捗概要 */}
-      <div className="bg-gray-900 border border-gray-700 rounded-lg p-6 mb-4">
-        <h3 className="text-purple-400 font-mono text-sm font-bold mb-4 tracking-widest">単位取得進捗</h3>
-        <ProgressBar value={ACADEMIC.acquired} max={ACADEMIC.total} color="#a855f7" label={`取得単位 (目標: ${ACADEMIC.total})`} />
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+      {/* 概要カード */}
+      <section className="card-flat p-6 mb-4">
+        <ProgressRow label={`卒業まで（目標 ${ACADEMIC.total} 単位）`} value={ACADEMIC.acquired} max={ACADEMIC.total} />
+
+        <div className="grid grid-cols-4 gap-4 mt-6">
           {[
-            { label: '取得済み', value: `${ACADEMIC.acquired}単位`, color: 'text-purple-400' },
-            { label: '残り', value: `${remaining}単位`, color: 'text-red-400' },
-            { label: '進捗', value: `${pct}%`, color: 'text-purple-400' },
-            { label: '卒業目標', value: `${ACADEMIC.targetYear}年`, color: 'text-green-400' },
-          ].map(({ label, value, color }) => (
-            <div key={label} className="bg-gray-800 rounded-lg p-3 text-center">
-              <p className="text-gray-500 font-mono text-xs mb-1">{label}</p>
-              <p className={`font-mono text-lg font-bold ${color}`}>{value}</p>
+            { label: '取得済み', value: `${ACADEMIC.acquired}` },
+            { label: '残り', value: `${remaining}` },
+            { label: '進捗', value: `${pct}%` },
+            { label: '卒業目標', value: `${ACADEMIC.targetYear}` },
+          ].map(({ label, value }) => (
+            <div key={label}>
+              <p className="font-[family-name:var(--font-mono)] text-[10px] text-text-3 uppercase tracking-widest mb-1">
+                {label}
+              </p>
+              <p className="font-[family-name:var(--font-display)] text-2xl font-medium text-text-1 leading-none">
+                {value}
+              </p>
             </div>
           ))}
         </div>
-      </div>
+      </section>
 
-      {/* 科目別進捗 */}
-      <div className="bg-gray-900 border border-gray-700 rounded-lg p-6 mb-4">
-        <h3 className="text-purple-400 font-mono text-sm font-bold mb-4 tracking-widest">科目区分別</h3>
+      {/* 科目区分別 */}
+      <section className="card-flat p-6">
+        <h2 className="text-text-3 text-xs uppercase tracking-widest mb-4">科目区分別</h2>
         <div className="space-y-4">
-          <ProgressBar value={6} max={ACADEMIC.required.general} color="#a855f7" label={`総合教育科目 (必要: ${ACADEMIC.required.general})`} />
-          <ProgressBar value={30} max={ACADEMIC.required.specialized} color="#7c3aed" label={`専門教育科目 (必要: ${ACADEMIC.required.specialized})`} />
-          <ProgressBar value={0} max={ACADEMIC.required.thesis} color="#6d28d9" label={`卒業論文 (必要: ${ACADEMIC.required.thesis})`} />
+          {CATEGORIES.map((c) => (
+            <ProgressRow key={c.label} label={c.label} value={c.acquired} max={c.required} />
+          ))}
         </div>
-      </div>
-
-      {/* 注意事項 */}
-      <div className="bg-gray-900 border border-red-900 rounded-lg p-4">
-        <h3 className="text-red-400 font-mono text-xs font-bold mb-2 tracking-widest">⚠ WARNINGS</h3>
-        <ul className="space-y-1 text-xs font-mono text-gray-400">
-          <li>• 2027年度から大幅改訂予定（レポート提出制限・学費値上げ）</li>
-          <li>• 慶應通信Wiki: 2026年度までの卒業推奨</li>
-          <li>• 卒論指導: 年2回×最低3回 = 最短1.5年必要</li>
-        </ul>
-      </div>
+      </section>
     </div>
   );
 }
