@@ -11,16 +11,38 @@ function authHeaders() {
   };
 }
 
-export async function getOpenIssues(): Promise<GitHubIssue[]> {
-  const res = await fetch(
-    `${API_BASE}/issues?state=open&per_page=20`,
-    {
-      headers: authHeaders(),
-      next: { revalidate: 60 },
-    }
-  );
+/**
+ * Open Issue 一覧を取得。
+ * 任意で `labels` を指定すると AND フィルタが効く（GitHub API の `labels=a,b` 仕様）。
+ */
+export async function getOpenIssues(options?: {
+  labels?: string[];
+  limit?: number;
+}): Promise<GitHubIssue[]> {
+  const limit = options?.limit ?? 30;
+  const params = new URLSearchParams({ state: 'open', per_page: String(limit) });
+  if (options?.labels?.length) {
+    params.set('labels', options.labels.join(','));
+  }
+  const res = await fetch(`${API_BASE}/issues?${params.toString()}`, {
+    headers: authHeaders(),
+    cache: 'no-store',
+  });
   if (!res.ok) return [];
   return res.json();
+}
+
+/**
+ * Open Issue のうち、指定ラベルを **持たない** ものだけを返す。
+ * GitHub API はネガティブフィルタを直接サポートしないため、
+ * 全件取得してクライアント側で除外する。
+ */
+export async function getOpenIssuesWithoutLabel(
+  excludeLabel: string,
+  limit = 30
+): Promise<GitHubIssue[]> {
+  const all = await getOpenIssues({ limit });
+  return all.filter((issue) => !issue.labels.some((l) => l.name === excludeLabel));
 }
 
 /**
@@ -83,6 +105,55 @@ export async function getMilestone(milestoneNumber: number): Promise<GitHubMiles
   });
   if (!res.ok) return null;
   return res.json();
+}
+
+/**
+ * リポジトリにラベルが存在しなければ作成する。
+ * 既存ラベルがある場合は何もしない。
+ */
+export async function ensureLabel(name: string, color = '848CD0'): Promise<void> {
+  // 存在チェック
+  const checkRes = await fetch(`${API_BASE}/labels/${encodeURIComponent(name)}`, {
+    headers: authHeaders(),
+    cache: 'no-store',
+  });
+  if (checkRes.ok) return;
+
+  // 作成
+  await fetch(`${API_BASE}/labels`, {
+    method: 'POST',
+    headers: { ...authHeaders(), 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, color, description: '' }),
+  });
+}
+
+/**
+ * Issue にラベルを追加する。
+ * 同名ラベルが既に付いていても GitHub 側で冪等に処理される。
+ */
+export async function addLabel(issueNumber: number, label: string): Promise<boolean> {
+  await ensureLabel(label);
+  const res = await fetch(`${API_BASE}/issues/${issueNumber}/labels`, {
+    method: 'POST',
+    headers: { ...authHeaders(), 'Content-Type': 'application/json' },
+    body: JSON.stringify({ labels: [label] }),
+  });
+  return res.ok;
+}
+
+/**
+ * Issue から特定のラベルを削除する。
+ * ラベルが付いていない場合は 404 が返るが、エラーとはしない。
+ */
+export async function removeLabel(issueNumber: number, label: string): Promise<boolean> {
+  const res = await fetch(
+    `${API_BASE}/issues/${issueNumber}/labels/${encodeURIComponent(label)}`,
+    {
+      method: 'DELETE',
+      headers: authHeaders(),
+    }
+  );
+  return res.ok || res.status === 404;
 }
 
 /**

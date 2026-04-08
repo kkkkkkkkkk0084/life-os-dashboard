@@ -1,12 +1,18 @@
 import Link from 'next/link';
 import { listGoals } from '@/lib/goals';
-import { getMilestones } from '@/lib/github';
+import { getMilestones, getOpenIssuesWithoutLabel } from '@/lib/github';
 import NewGoalForm from '@/components/missions/NewGoalForm';
+import TodayToggleButton from '@/components/missions/TodayToggleButton';
+import { TODAY_LABEL } from '@/lib/labels';
 
 export const dynamic = 'force-dynamic';
 
 export default async function MissionsPage() {
-  const [goals, milestones] = await Promise.all([listGoals(), getMilestones('open')]);
+  const [goals, milestones, inbox] = await Promise.all([
+    listGoals(),
+    getMilestones('open'),
+    getOpenIssuesWithoutLabel(TODAY_LABEL, 50),
+  ]);
 
   const milestoneCountByGoal = new Map<string, number>(
     goals.map((g) => [g.id, g.milestoneNumbers.length])
@@ -59,6 +65,55 @@ export default async function MissionsPage() {
           ))}
         </ul>
       )}
+
+      {/* Inbox: today ラベルがない open Issue 一覧 */}
+      <section className="mt-12">
+        <header className="flex items-baseline justify-between mb-3">
+          <h2 className="text-text-3 text-xs uppercase tracking-widest">
+            Inbox ({inbox.length})
+          </h2>
+          <span className="text-text-3 text-[10px]">
+            「+ Today」で Overview に表示
+          </span>
+        </header>
+
+        {inbox.length === 0 ? (
+          <div className="card-flat p-6 text-center text-text-3 text-sm">
+            Inbox は空です
+          </div>
+        ) : (
+          <ul className="grid gap-2">
+            {inbox.map((issue) => (
+              <li key={issue.id}>
+                <div className="card-flat px-4 py-3 flex items-center gap-3">
+                  <Link
+                    href={`/missions/task/${issue.number}`}
+                    className="flex items-center gap-3 flex-1 min-w-0"
+                  >
+                    <span className="text-text-3 font-mono text-[10px] shrink-0">
+                      #{issue.number}
+                    </span>
+                    <span className="text-text-1 text-sm truncate">{issue.title}</span>
+                    {issue.labels.length > 0 && (
+                      <div className="flex gap-1 shrink-0">
+                        {issue.labels.slice(0, 3).map((label) => (
+                          <span
+                            key={label.name}
+                            className="text-[10px] text-text-3"
+                          >
+                            {label.name}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </Link>
+                  <TodayToggleButton issueNumber={issue.number} initiallyToday={false} />
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
 
       {/* Goal に紐付いていない Milestone があれば参考表示 */}
       {milestones.length > 0 && (
