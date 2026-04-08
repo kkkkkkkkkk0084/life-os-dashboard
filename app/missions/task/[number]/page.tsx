@@ -41,7 +41,7 @@ export default async function TaskPage({
         <span className="text-text-2 truncate">{issue.title}</span>
       </nav>
 
-      <header className="mb-8 flex items-start justify-between gap-4">
+      <header className="mb-6 md:mb-8 flex items-start justify-between gap-4">
         <div className="min-w-0">
           <h1 className={`section-title ${isClosed ? 'line-through text-text-3' : ''}`}>
             {issue.title}

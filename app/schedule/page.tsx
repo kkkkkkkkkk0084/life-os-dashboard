@@ -36,11 +36,12 @@ export default async function SchedulePage() {
 
   return (
     <div className="max-w-5xl mx-auto px-5 md:px-8 py-6 md:py-10">
-      <header className="mb-8">
+      <header className="mb-6 md:mb-8">
         <p className="text-text-3 text-sm mb-1">Schedule</p>
         <h1 className="section-title">Upcoming events</h1>
-        <p className="text-text-3 text-xs mt-2">今日から 14 日先までの予定</p>
       </header>
+
+      <p className="text-text-3 text-xs mb-3">今日から 14 日先までの予定</p>
 
       {groups.size === 0 ? (
         <div className="card-flat p-10 text-center">

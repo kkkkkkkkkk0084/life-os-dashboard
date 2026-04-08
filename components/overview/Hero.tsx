@@ -26,20 +26,12 @@ export default function Hero() {
   const year = jstNow.getFullYear();
 
   return (
-    <header className="mb-6 md:mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-6">
-      {/* greeting */}
+    <header className="mb-6 md:mb-8 flex flex-col md:flex-row md:items-end md:justify-between gap-3 md:gap-6">
+      {/* greeting — 他ページと同じ構造 (text-sm <p> + section-title <h1>) */}
       <div>
-          <p className="font-[family-name:var(--font-mono)] text-[10px] text-text-3 tracking-[1.5px] uppercase mb-1">
-            This Is What I Do
-          </p>
-        <h1
-          className="font-[family-name:var(--font-display)] text-2xl md:text-[28px] font-medium text-text-1 leading-tight"
-          style={{ letterSpacing: '-1px' }}
-        >
-          {greeting},{' '}
-          <em className="font-[family-name:var(--font-serif)] italic font-normal text-text-2">
-            Kei
-          </em>
+        <p className="text-text-3 text-sm mb-1">Overview</p>
+        <h1 className="section-title">
+          {greeting}, <em className="font-[family-name:var(--font-serif)] italic font-normal text-text-2">Kei</em>
         </h1>
       </div>
 

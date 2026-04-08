@@ -33,7 +33,7 @@ export default async function ProjectPage({
         <span className="text-text-2 truncate">{milestone.title}</span>
       </nav>
 
-      <header className="mb-8 flex items-end justify-between gap-4">
+      <header className="mb-6 md:mb-8 flex items-end justify-between gap-4">
         <div className="min-w-0">
           <h1 className="section-title">{milestone.title}</h1>
           {milestone.description && (

@@ -29,7 +29,7 @@ export default async function GoalPage({
         <span className="text-text-2 truncate">{goal.title}</span>
       </nav>
 
-      <header className="mb-8">
+      <header className="mb-6 md:mb-8">
         <h1 className="section-title">{goal.title}</h1>
         {goal.description && (
           <p className="text-text-2 text-sm mt-2 max-w-2xl">{goal.description}</p>

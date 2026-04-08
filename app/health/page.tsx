@@ -18,11 +18,10 @@ export default async function HealthPage() {
       <header className="mb-6 md:mb-8">
         <p className="text-text-3 text-sm mb-1">Health</p>
         <h1 className="section-title">今日の生活ログ</h1>
-        <p className="text-text-3 text-xs mt-2">{today}</p>
       </header>
 
       <p className="text-text-3 text-xs mb-3">
-        各カードをタップで記録 / 時間はクリックで編集
+        {today} ・ 各カードをタップで記録 / 時間はクリックで編集
       </p>
       <LifeLogEditor initial={status} />
     </div>
