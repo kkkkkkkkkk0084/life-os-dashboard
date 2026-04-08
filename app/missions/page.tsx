@@ -33,13 +33,14 @@ export default async function MissionsPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-5 md:px-8 py-6 md:py-10">
-      <header className="mb-6 md:mb-8 flex items-start justify-between gap-4">
-        <div>
-          <p className="text-text-3 text-sm mb-1">Missions</p>
-          <h1 className="section-title">Goals</h1>
-        </div>
-        <NewGoalForm />
+      <header className="mb-6 md:mb-8">
+        <p className="text-text-3 text-sm mb-1">Missions</p>
+        <h1 className="section-title">Goals</h1>
       </header>
+
+      <div className="mb-6 flex justify-end">
+        <NewGoalForm />
+      </div>
 
       {goals.length === 0 ? (
         <div className="card-flat p-10 text-center">
