@@ -15,7 +15,7 @@
 | 画面 | 役割 | データソース |
 |------|------|-------------|
 | **Overview** | ハブ。Year Progress + Today's Tasks + Today's Schedule + 生活ログサマリー | 既存 |
-| **Tasks** | Goals/Projects/Tasks/Details の階層を一元管理 | ハイブリッド（後述） |
+| **Missions** (`/missions`) | Goals/Projects/Tasks/Details の階層を一元管理 | ハイブリッド（後述） |
 | **Schedule** | 予定の全件表示 | Google Calendar |
 | **Academic** | 単位進捗 + 科目区分別 | 静的 (`constants/academic.ts`) |
 | **Health** | 今日の生活ログ表示 + 修正 | Webhook (Upstash KV) |
@@ -83,24 +83,21 @@ OKR / WBS と同じ考え方。**4 階層を 1 ページ（/tasks）で管理す
 - **予定見せ方**: 今日の時系列のみ
 - **アクセス頻度**: Tasks 1回/日、Schedule 1回/日（他は未確定だが MVP には影響なし）
 
-## 未確定の質問（再開時に確認すべき）
+## 確定した回答（2026-04-08）
 
-### Q1. ハイブリッド方針の最終確認
-- 「Goal=KV / Project=Milestone / Task=Issue / Detail=checkbox」で進めて良いか？
+### Q1. ハイブリッド方針 → ✅ 確定
+「Goal=KV / Project=Milestone / Task=Issue / Detail=checkbox」で進める。
 
-### Q2. MVP の編集機能スコープ
-- **読み取り専用 + Goals だけ追加可能** で進めて良いか？
-  - Tasks/Projects/Details の編集は GitHub アプリに任せる
-  - 後から必要なら Detail のチェックトグル等を追加
-- 実装が劇的に軽くなる代わりに、ダッシュボード単体では完結しなくなる
+### Q2. MVP の編集機能スコープ → ✅ 確定
+**読み取り専用 + Goals だけ追加可能**。
+Tasks/Projects/Details の編集は GitHub モバイルアプリに委譲する。
+後から必要なら Detail のチェックトグル等を追加。
 
-### Q3. /tasks 画面の名前
-- `/tasks` のままで良いか？
-- 階層全体を扱うので `/work` や `/missions` の方が適切な気もする
+### Q3. /tasks 画面の名前 → ✅ `/missions` に決定
+ゲーミフィケーション要素との相性、および「Goal も含む階層全体」を表現するため。
 
-### Q4. screens.md の最終構成
-- 「MVP 仕様」+ 「将来実装案」の 2 セクションで合意済み
-- 上記 Q1-Q3 の回答を反映して書き直す
+### Q4. screens.md の最終構成 → ✅ 完了
+`docs/screens.md` を MVP 仕様 + 将来実装案の 2 セクション構成で書き直し済み。
 
 ## 進行中のコード変更
 

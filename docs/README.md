@@ -22,14 +22,17 @@
 - **外部連携が中核** — 単体で完結せず、既存サービスをハブのように繋ぐ位置付け
 - **運用環境**: Vercel + Upstash KV
 
-## 画面構成
+## 画面構成（MVP）
 
 | 画面 | 役割 |
 |------|------|
-| `/` (Overview) | 1 日の全体サマリー（Hero / Today / Status / Quests / Gold / Week / Activity セクション） |
-| `/academic` | 学業情報 |
-| `/finance` | 家計情報 |
-| `/health` | 健康情報 |
+| `/` (Overview) | ハブ。今日のタスク・予定・年次進捗・生活ログサマリー |
+| `/missions` | Goal → Project → Task → Detail の 4 階層を一元管理 |
+| `/schedule` | Google Calendar の予定全件表示 |
+| `/academic` | 単位取得進捗 |
+| `/health` | 今日の生活ログ |
+
+> Finance は将来実装。詳細は `screens.md` 参照。
 
 API ルート（`app/api/`）:
 
