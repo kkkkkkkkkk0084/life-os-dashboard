@@ -1,16 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+// PWA / アイコン関連は認証なしで配信する。
+// 認証が掛かっていると iOS Safari の「ホーム画面に追加」や Chrome の
+// インストールプロンプトが manifest を取得できず PWA インストールが失敗する。
+const PUBLIC_PATHS = [
+  '/manifest.webmanifest',
+  '/manifest.json',
+  '/icon',
+  '/apple-icon',
+  '/favicon.ico',
+];
+
 export function middleware(request: NextRequest) {
+  const pathname = request.nextUrl.pathname;
+
   // API routes skip auth (they use token auth)
-  if (request.nextUrl.pathname.startsWith('/api')) {
+  if (pathname.startsWith('/api')) {
     return NextResponse.next();
   }
 
   // Static assets skip auth
-  if (
-    request.nextUrl.pathname.startsWith('/_next') ||
-    request.nextUrl.pathname.startsWith('/favicon.ico')
-  ) {
+  if (pathname.startsWith('/_next')) {
+    return NextResponse.next();
+  }
+
+  // PWA-related routes skip auth
+  if (PUBLIC_PATHS.some((p) => pathname === p || pathname.startsWith(p + '/'))) {
     return NextResponse.next();
   }
 
