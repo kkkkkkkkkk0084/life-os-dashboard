@@ -11,7 +11,7 @@ const PUBLIC_PATHS = [
   '/favicon.ico',
 ];
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   // API routes skip auth (they use token auth)
