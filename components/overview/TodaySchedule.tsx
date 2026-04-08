@@ -16,7 +16,7 @@ export default async function TodaySchedule() {
   const events = await getTodayEvents();
 
   return (
-    <section className="card-flat p-5 h-full flex flex-col">
+    <section className="card-flat p-5">
       <header className="flex items-baseline justify-between mb-4">
         <h2 className="font-[family-name:var(--font-display)] text-base font-medium text-text-1">
           Today&apos;s Schedule
@@ -27,9 +27,9 @@ export default async function TodaySchedule() {
       </header>
 
       {events.length === 0 ? (
-        <p className="text-text-3 text-sm">予定なし</p>
+        <p className="text-text-3 text-sm py-4">予定なし</p>
       ) : (
-        <ul className="flex-1 overflow-y-auto -mx-2 pr-1">
+        <ul className="-mx-2">
           {events.map((event) => (
             <li
               key={event.id}

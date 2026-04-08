@@ -22,7 +22,7 @@ export default async function TodayTasks() {
   const issues = allIssues.slice(0, OVERVIEW_TASK_LIMIT);
 
   return (
-    <section className="card-flat p-5 h-full flex flex-col">
+    <section className="card-flat p-5">
       <header className="flex items-baseline justify-between mb-4">
         <h2 className="font-[family-name:var(--font-display)] text-base font-medium text-text-1">
           Today&apos;s Tasks
@@ -33,11 +33,9 @@ export default async function TodayTasks() {
       </header>
 
       {issues.length === 0 ? (
-        <div className="flex-1 flex items-center justify-center">
-          <p className="text-text-3 text-sm">未完了タスクなし</p>
-        </div>
+        <p className="text-text-3 text-sm py-4">未完了タスクなし</p>
       ) : (
-        <ul className="flex-1 overflow-y-auto -mx-2 pr-1">
+        <ul className="-mx-2">
           {issues.map((issue) => {
             const status = classifyDueDate(issue.dueDate);
             const style = STATUS_STYLE[status];
