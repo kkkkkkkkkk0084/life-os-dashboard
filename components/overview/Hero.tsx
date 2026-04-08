@@ -26,7 +26,7 @@ export default function Hero() {
   const year = jstNow.getFullYear();
 
   return (
-    <section className="pt-4 md:pt-5 pb-3">
+    <section className="pt-6 md:pt-10 pb-4">
       <div className="max-w-5xl mx-auto px-5 md:px-8 flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-6">
         {/* greeting */}
         <div>
