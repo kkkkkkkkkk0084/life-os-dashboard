@@ -26,40 +26,38 @@ export default function Hero() {
   const year = jstNow.getFullYear();
 
   return (
-    <section className="pt-6 md:pt-10 pb-4">
-      <div className="max-w-5xl mx-auto px-5 md:px-8 flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-6">
-        {/* greeting */}
-        <div>
+    <header className="mb-6 md:mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-6">
+      {/* greeting */}
+      <div>
           <p className="font-[family-name:var(--font-mono)] text-[10px] text-text-3 tracking-[1.5px] uppercase mb-1">
             This Is What I Do
           </p>
-          <h1
-            className="font-[family-name:var(--font-display)] text-2xl md:text-[28px] font-medium text-text-1 leading-tight"
-            style={{ letterSpacing: '-1px' }}
-          >
-            {greeting},{' '}
-            <em className="font-[family-name:var(--font-serif)] italic font-normal text-text-2">
-              Kei
-            </em>
-          </h1>
-        </div>
-
-        {/* Year progress */}
-        <div className="flex items-center gap-3 w-full md:max-w-[360px]">
-          <span className="font-[family-name:var(--font-mono)] text-[11px] text-text-2 whitespace-nowrap">
-            {year}
-          </span>
-          <div className="flex-1 h-1.5 rounded-full overflow-hidden bg-white/5">
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-accent to-[#a4abdf]"
-              style={{ width: `${pct.toFixed(2)}%` }}
-            />
-          </div>
-          <span className="font-[family-name:var(--font-mono)] text-[11px] text-text-3 whitespace-nowrap">
-            {pct.toFixed(1)}%
-          </span>
-        </div>
+        <h1
+          className="font-[family-name:var(--font-display)] text-2xl md:text-[28px] font-medium text-text-1 leading-tight"
+          style={{ letterSpacing: '-1px' }}
+        >
+          {greeting},{' '}
+          <em className="font-[family-name:var(--font-serif)] italic font-normal text-text-2">
+            Kei
+          </em>
+        </h1>
       </div>
-    </section>
+
+      {/* Year progress */}
+      <div className="flex items-center gap-3 w-full md:max-w-[360px]">
+        <span className="font-[family-name:var(--font-mono)] text-[11px] text-text-2 whitespace-nowrap">
+          {year}
+        </span>
+        <div className="flex-1 h-1.5 rounded-full overflow-hidden bg-white/5">
+          <div
+            className="h-full rounded-full bg-gradient-to-r from-accent to-[#a4abdf]"
+            style={{ width: `${pct.toFixed(2)}%` }}
+          />
+        </div>
+        <span className="font-[family-name:var(--font-mono)] text-[11px] text-text-3 whitespace-nowrap">
+          {pct.toFixed(1)}%
+        </span>
+      </div>
+    </header>
   );
 }
