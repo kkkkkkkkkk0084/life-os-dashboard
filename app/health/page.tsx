@@ -14,8 +14,8 @@ export default async function HealthPage() {
   });
 
   return (
-    <div className="max-w-3xl mx-auto px-8 py-10">
-      <header className="mb-8">
+    <div className="max-w-3xl mx-auto px-5 md:px-8 py-6 md:py-10">
+      <header className="mb-6 md:mb-8">
         <p className="text-text-3 text-sm mb-1">Health</p>
         <h1 className="section-title">今日の生活ログ</h1>
         <p className="text-text-3 text-xs mt-2">{today}</p>

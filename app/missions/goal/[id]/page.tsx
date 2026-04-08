@@ -20,7 +20,7 @@ export default async function GoalPage({
   ).filter((m): m is GitHubMilestone => m !== null);
 
   return (
-    <div className="max-w-5xl mx-auto px-8 py-10">
+    <div className="max-w-5xl mx-auto px-5 md:px-8 py-6 md:py-10">
       <nav className="text-text-3 text-xs mb-2 flex gap-2">
         <Link href="/missions" className="hover:text-text-2">
           Missions

@@ -52,7 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${ebGaramond.variable} font-[family-name:var(--font-inter)]`}
       >
         <Nav />
-        <main className="pt-[88px]">
+        <main className="pt-[64px] md:pt-[88px] pb-[calc(56px+env(safe-area-inset-bottom))] md:pb-0">
           {children}
         </main>
       </body>

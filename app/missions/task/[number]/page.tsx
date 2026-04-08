@@ -21,7 +21,7 @@ export default async function TaskPage({
   const isClosed = issue.state === 'closed';
 
   return (
-    <div className="max-w-3xl mx-auto px-8 py-10">
+    <div className="max-w-3xl mx-auto px-5 md:px-8 py-6 md:py-10">
       <nav className="text-text-3 text-xs mb-2 flex gap-2 items-center">
         <Link href="/missions" className="hover:text-text-2">
           Missions

@@ -10,36 +10,31 @@ function getGreeting(hour: number): string {
   return 'Good evening';
 }
 
-function getYearProgress(now: Date): { pct: number; dayOfYear: number; totalDays: number } {
+function getYearProgressPct(now: Date): number {
   const year = now.getFullYear();
   const start = new Date(year, 0, 1);
   const end = new Date(year + 1, 0, 1);
   const totalMs = end.getTime() - start.getTime();
   const elapsedMs = now.getTime() - start.getTime();
-  const pct = (elapsedMs / totalMs) * 100;
-
-  const totalDays = Math.round(totalMs / (1000 * 60 * 60 * 24));
-  const dayOfYear = Math.floor(elapsedMs / (1000 * 60 * 60 * 24)) + 1;
-
-  return { pct, dayOfYear, totalDays };
+  return (elapsedMs / totalMs) * 100;
 }
 
 export default function Hero() {
   const jstNow = getJstNow();
   const greeting = getGreeting(jstNow.getHours());
-  const { pct, dayOfYear, totalDays } = getYearProgress(jstNow);
+  const pct = getYearProgressPct(jstNow);
   const year = jstNow.getFullYear();
 
   return (
-    <section className="px-8 pt-6 pb-4">
-      <div className="max-w-[1280px] mx-auto flex items-center justify-between gap-6">
-        {/* Left: greeting */}
+    <section className="px-5 md:px-8 pt-5 md:pt-6 pb-4">
+      <div className="max-w-[1280px] mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-6">
+        {/* greeting */}
         <div>
           <p className="font-[family-name:var(--font-mono)] text-[10px] text-text-3 tracking-[1.5px] uppercase mb-1">
             This Is What I Do
           </p>
           <h1
-            className="font-[family-name:var(--font-display)] text-[28px] font-medium text-text-1 leading-tight"
+            className="font-[family-name:var(--font-display)] text-2xl md:text-[28px] font-medium text-text-1 leading-tight"
             style={{ letterSpacing: '-1px' }}
           >
             {greeting},{' '}
@@ -49,8 +44,8 @@ export default function Hero() {
           </h1>
         </div>
 
-        {/* Right: Year progress */}
-        <div className="flex items-center gap-3 w-full max-w-[360px]">
+        {/* Year progress */}
+        <div className="flex items-center gap-3 w-full md:max-w-[360px]">
           <span className="font-[family-name:var(--font-mono)] text-[11px] text-text-2 whitespace-nowrap">
             {year}
           </span>
@@ -61,7 +56,7 @@ export default function Hero() {
             />
           </div>
           <span className="font-[family-name:var(--font-mono)] text-[11px] text-text-3 whitespace-nowrap">
-            {pct.toFixed(1)}% · {dayOfYear}/{totalDays}d
+            {pct.toFixed(1)}%
           </span>
         </div>
       </div>

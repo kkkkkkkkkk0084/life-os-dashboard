@@ -32,7 +32,7 @@ export default async function MissionsPage() {
   );
 
   return (
-    <div className="max-w-5xl mx-auto px-8 py-10">
+    <div className="max-w-5xl mx-auto px-5 md:px-8 py-6 md:py-10">
       <header className="mb-8 flex items-start justify-between gap-4">
         <div>
           <p className="text-text-3 text-sm mb-1">Missions</p>
