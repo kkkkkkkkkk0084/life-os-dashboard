@@ -14,16 +14,11 @@ export default async function HealthPage() {
   });
 
   return (
-    <div className="max-w-5xl mx-auto px-5 md:px-8 py-6 md:py-10">
-      <header className="mb-6 md:mb-8">
-        <p className="text-text-3 text-sm mb-1">Health</p>
-        <h1 className="section-title">今日の生活ログ</h1>
-      </header>
-
+    <>
       <p className="text-text-3 text-xs mb-3">
         {today} ・ 各カードをタップで記録 / 時間はクリックで編集
       </p>
       <LifeLogEditor initial={status} />
-    </div>
+    </>
   );
 }

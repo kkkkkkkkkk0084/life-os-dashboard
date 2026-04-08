@@ -37,12 +37,7 @@ export default function AcademicPage() {
   const remaining = ACADEMIC.total - ACADEMIC.acquired;
 
   return (
-    <div className="max-w-5xl mx-auto px-5 md:px-8 py-6 md:py-10">
-      <header className="mb-6 md:mb-8">
-        <p className="text-text-3 text-sm mb-1">Academic</p>
-        <h1 className="section-title">単位取得進捗</h1>
-      </header>
-
+    <>
       {/* 概要カード */}
       <section className="card-flat p-6 mb-4">
         <ProgressRow label={`卒業まで（目標 ${ACADEMIC.total} 単位）`} value={ACADEMIC.acquired} max={ACADEMIC.total} />
@@ -75,6 +70,6 @@ export default function AcademicPage() {
           ))}
         </div>
       </section>
-    </div>
+    </>
   );
 }
