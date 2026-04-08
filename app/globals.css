@@ -26,7 +26,12 @@ html, body {
 }
 
 html {
-  /* スクロールバーの有無による左右シフトを防ぐ */
+  /*
+   * 全ページで scrollbar 領域を確保し、ページ遷移時の左右シフトを防ぐ。
+   * scrollbar-gutter: stable だけだと一部ブラウザで効かないため、
+   * overflow-y: scroll で物理的に常時スクロールバー領域を取らせる。
+   */
+  overflow-y: scroll;
   scrollbar-gutter: stable;
 }
 
@@ -35,7 +40,6 @@ body {
   color: var(--color-text-1);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
 }
 
 ::selection {
