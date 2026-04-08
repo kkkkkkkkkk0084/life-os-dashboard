@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { createGoal, deleteGoal, updateGoal } from '@/lib/goals';
-import { createIssue } from '@/lib/github';
+import { createIssue, toggleIssueCheckbox } from '@/lib/github';
 
 export async function createGoalAction(formData: FormData) {
   const title = String(formData.get('title') ?? '').trim();
@@ -89,4 +89,20 @@ export async function createTaskAction(formData: FormData): Promise<{ ok: boolea
     revalidatePath(`/missions/project/${milestone}`);
   }
   return { ok: true };
+}
+
+/**
+ * Issue body の N 番目の Markdown checkbox をトグル。
+ * Missions の Detail (`/missions/task/[number]`) で 1 タップ完了を実現する。
+ */
+export async function toggleDetailAction(
+  issueNumber: number,
+  index: number,
+  checked: boolean
+): Promise<{ ok: boolean }> {
+  const ok = await toggleIssueCheckbox(issueNumber, index, checked);
+  if (ok) {
+    revalidatePath(`/missions/task/${issueNumber}`);
+  }
+  return { ok };
 }

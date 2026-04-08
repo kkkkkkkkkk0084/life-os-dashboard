@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getIssue, parseIssueDetails } from '@/lib/github';
+import DetailList from '@/components/missions/DetailList';
 
 export const dynamic = 'force-dynamic';
 
@@ -66,47 +67,7 @@ export default async function TaskPage({
         </a>
       </header>
 
-      <h2 className="text-text-3 text-xs uppercase tracking-widest mb-3">
-        Details ({details.filter((d) => d.checked).length} / {details.length})
-      </h2>
-
-      {details.length === 0 ? (
-        <div className="card-flat p-8 text-center">
-          <p className="text-text-2 text-sm mb-2">Detail（チェックリスト）がありません</p>
-          <p className="text-text-3 text-xs">
-            GitHub の Issue body に <code className="font-mono">- [ ] 項目</code> 形式で追加してください
-          </p>
-        </div>
-      ) : (
-        <ul className="grid gap-1.5">
-          {details.map((d, i) => (
-            <li
-              key={i}
-              className="card-flat flex items-center gap-3 px-4 py-2.5"
-            >
-              <span
-                className="w-4 h-4 rounded border shrink-0 flex items-center justify-center"
-                style={
-                  d.checked
-                    ? { background: 'var(--color-green)', borderColor: 'var(--color-green)' }
-                    : { borderColor: 'var(--color-text-3)' }
-                }
-              >
-                {d.checked && (
-                  <span className="text-bg text-[10px] leading-none">✓</span>
-                )}
-              </span>
-              <span
-                className={`text-sm ${
-                  d.checked ? 'text-text-3 line-through' : 'text-text-1'
-                }`}
-              >
-                {d.text}
-              </span>
-            </li>
-          ))}
-        </ul>
-      )}
+      <DetailList issueNumber={issueNumber} initial={details} />
     </div>
   );
 }

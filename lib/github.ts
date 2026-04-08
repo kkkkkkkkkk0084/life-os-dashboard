@@ -267,6 +267,7 @@ export async function removeLabel(issueNumber: number, label: string): Promise<b
  * - `- [x] bar` / `- [X] bar` → { text: 'bar', checked: true }
  *
  * 行頭の空白・タブにも対応（ネストされた checkbox 含む）。
+ * 配列の順番が toggleIssueCheckbox の index と一致する。
  */
 export function parseIssueDetails(body: string | null): IssueDetail[] {
   if (!body) return [];
@@ -280,4 +281,40 @@ export function parseIssueDetails(body: string | null): IssueDetail[] {
     });
   }
   return details;
+}
+
+/**
+ * Issue body の N 番目の Markdown checkbox を切り替える。
+ *
+ * - `parseIssueDetails` と同じ正規表現を使うので index は一致する
+ * - body 内の他の部分（Due 行・本文・改行）は触らない
+ * - 該当 index がなければ false
+ */
+export async function toggleIssueCheckbox(
+  issueNumber: number,
+  index: number,
+  checked: boolean
+): Promise<boolean> {
+  const issue = await getIssue(issueNumber);
+  if (!issue || !issue.body) return false;
+
+  const pattern = /^([ \t]*[-*+]\s+\[)([ xX])(\]\s+.+)$/gm;
+  let i = 0;
+  let found = false;
+  const newBody = issue.body.replace(pattern, (match, prefix, _state, suffix) => {
+    if (i++ === index) {
+      found = true;
+      return `${prefix}${checked ? 'x' : ' '}${suffix}`;
+    }
+    return match;
+  });
+
+  if (!found) return false;
+
+  const res = await fetch(`${API_BASE}/issues/${issueNumber}`, {
+    method: 'PATCH',
+    headers: { ...authHeaders(), 'Content-Type': 'application/json' },
+    body: JSON.stringify({ body: newBody }),
+  });
+  return res.ok;
 }
