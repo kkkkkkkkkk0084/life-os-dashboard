@@ -52,3 +52,39 @@ export async function getTodayEvents(): Promise<CalendarEvent[]> {
     return [];
   }
 }
+
+/**
+ * 今日から指定日数先までの予定を取得する。
+ * Schedule (`/schedule`) ページで使う。
+ */
+export async function getUpcomingEvents(days = 14): Promise<CalendarEvent[]> {
+  try {
+    const access_token = await getAccessToken();
+    if (!access_token) return [];
+
+    const calendarId = process.env.GOOGLE_CALENDAR_ID || 'primary';
+    const now = new Date();
+    const end = new Date(now.getTime() + days * 24 * 60 * 60 * 1000);
+    const timeMin = now.toISOString();
+    const timeMax = end.toISOString();
+
+    const res = await fetch(
+      `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events?timeMin=${encodeURIComponent(timeMin)}&timeMax=${encodeURIComponent(timeMax)}&singleEvents=true&orderBy=startTime`,
+      {
+        headers: { Authorization: `Bearer ${access_token}` },
+        next: { revalidate: 300 },
+      }
+    );
+
+    if (!res.ok) return [];
+    const data = await res.json();
+    return (data.items || []).map((item: { id: string; summary: string; start: { dateTime?: string; date?: string }; end: { dateTime?: string; date?: string } }) => ({
+      id: item.id,
+      summary: item.summary,
+      start: item.start.dateTime || item.start.date || '',
+      end: item.end.dateTime || item.end.date || '',
+    }));
+  } catch {
+    return [];
+  }
+}
