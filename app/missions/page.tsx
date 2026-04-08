@@ -26,7 +26,9 @@ export default async function MissionsPage() {
         <div className="card-flat p-10 text-center">
           <p className="text-text-2 text-sm mb-2">まだ Goal がありません</p>
           <p className="text-text-3 text-xs">
-            「+ New Goal」ボタンから追加できます（Goal 作成 UI は次のステップで実装）
+            年単位の大目標を追加したくなったら、右上の「+ New Goal」から作成できます。
+            <br />
+            日々のタスクは Overview の Today&apos;s Tasks に表示されます。
           </p>
         </div>
       ) : (
