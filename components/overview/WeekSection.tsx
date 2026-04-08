@@ -36,18 +36,18 @@ export default function WeekSection() {
   }, []);
 
   return (
-    <section className="mb-16" id="week-section">
-      <div className="flex items-baseline justify-between mb-5">
-        <h2 className="section-title font-[family-name:var(--font-display)]">This Week</h2>
+    <section id="week-section">
+      <div className="flex items-baseline justify-between mb-2">
+        <h2 className="section-title font-[family-name:var(--font-display)] !text-lg">This Week</h2>
       </div>
       <div className="grid grid-cols-7 gap-2">
         {DAYS.map((day, i) => (
           <div
             key={day.label}
-            className={`card p-4 flex flex-col items-center gap-2.5 ${day.today ? '!border-accent/30' : ''}`}
+            className={`card p-2 flex flex-col items-center gap-1 ${day.today ? '!border-accent/30' : ''}`}
           >
-            <span className="text-xs font-medium text-text-3">{day.label}</span>
-            <span className={`font-[family-name:var(--font-display)] text-2xl font-semibold ${
+            <span className="text-[10px] font-medium text-text-3">{day.label}</span>
+            <span className={`font-[family-name:var(--font-display)] text-base font-semibold ${
               day.score !== null ? 'text-text-1' : 'text-text-3'
             }`} style={{ letterSpacing: '-0.5px' }}>
               {day.score !== null ? day.score : '—'}

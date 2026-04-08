@@ -21,19 +21,19 @@ const statusColor = {
 
 export default function TodaySection() {
   return (
-    <section className="mb-16">
-      <div className="flex items-baseline justify-between mb-5">
-        <h2 className="section-title font-[family-name:var(--font-display)]">Today</h2>
-        <span className="font-[family-name:var(--font-mono)] text-xs text-text-3">April 5, 2026</span>
+    <section>
+      <div className="flex items-baseline justify-between mb-2">
+        <h2 className="section-title font-[family-name:var(--font-display)] !text-lg">Today</h2>
+        <span className="font-[family-name:var(--font-mono)] text-[10px] text-text-3">April 5, 2026</span>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+      <div className="grid grid-cols-3 md:grid-cols-9 gap-2">
         {TODAY_ITEMS.map((item, i) => (
-          <div key={item.label} className={`card p-5 cursor-pointer animate-fade-up delay-${i + 1}`}>
-            <div className="mono-label font-[family-name:var(--font-mono)] mb-2.5">{item.label}</div>
-            <div className={`font-[family-name:var(--font-mono)] text-2xl font-semibold leading-none mb-1.5 ${statusColor[item.status]}`}>
+          <div key={item.label} className={`card p-2.5 cursor-pointer animate-fade-up delay-${i + 1}`}>
+            <div className="mono-label font-[family-name:var(--font-mono)] mb-1 !text-[9px]">{item.label}</div>
+            <div className={`font-[family-name:var(--font-mono)] text-base font-semibold leading-none mb-0.5 ${statusColor[item.status]}`}>
               {item.value}
             </div>
-            <div className="text-[11px] text-text-3">{item.sub}</div>
+            <div className="text-[10px] text-text-3 truncate">{item.sub}</div>
           </div>
         ))}
       </div>

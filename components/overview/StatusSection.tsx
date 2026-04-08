@@ -40,11 +40,11 @@ function Counter({ to, prefix, unit }: { to: number; prefix?: string; unit?: str
 
   return (
     <>
-      <span ref={ref} className="font-[family-name:var(--font-display)] text-4xl font-semibold text-text-1 leading-none"
-        style={{ letterSpacing: '-1.5px' }}>
+      <span ref={ref} className="font-[family-name:var(--font-display)] text-2xl font-semibold text-text-1 leading-none"
+        style={{ letterSpacing: '-1px' }}>
         {prefix || ''}0
       </span>
-      {unit && <span className="text-lg font-normal text-text-3">{unit}</span>}
+      {unit && <span className="text-sm font-normal text-text-3">{unit}</span>}
     </>
   );
 }
@@ -75,28 +75,28 @@ export default function StatusSection() {
   }, []);
 
   return (
-    <section className="mb-16">
-      <div className="flex items-baseline justify-between mb-5">
-        <h2 className="section-title font-[family-name:var(--font-display)]">Status</h2>
+    <section>
+      <div className="flex items-baseline justify-between mb-2">
+        <h2 className="section-title font-[family-name:var(--font-display)] !text-lg">Status</h2>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
         {STATS.map((stat, i) => (
           <div
             key={stat.name}
-            className={`card p-6 animate-fade-up delay-${i + 1}`}
+            className={`card p-3 animate-fade-up delay-${i + 1}`}
             ref={(el) => { barsRef.current[i] = el; }}
           >
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-sm font-medium text-text-2">{stat.name}</span>
-              <span className="font-[family-name:var(--font-mono)] text-xs text-text-3">{stat.tag}</span>
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-xs font-medium text-text-2">{stat.name}</span>
+              <span className="font-[family-name:var(--font-mono)] text-[10px] text-text-3">{stat.tag}</span>
             </div>
-            <div className="flex items-baseline gap-1 mb-1">
+            <div className="flex items-baseline gap-1 mb-0.5">
               <Counter to={stat.value} prefix={stat.prefix} unit={stat.unit} />
             </div>
-            <div className="text-[11px] text-text-3 mb-4">{stat.desc}</div>
-            <div className="flex items-center justify-between mb-2">
-              <span className="font-[family-name:var(--font-mono)] text-[10px] text-text-3">Rank</span>
-              <span className="font-[family-name:var(--font-display)] text-sm font-semibold text-text-1">{stat.rank}</span>
+            <div className="text-[10px] text-text-3 mb-2 truncate">{stat.desc}</div>
+            <div className="flex items-center justify-between mb-1">
+              <span className="font-[family-name:var(--font-mono)] text-[9px] text-text-3">Rank</span>
+              <span className="font-[family-name:var(--font-display)] text-xs font-semibold text-text-1">{stat.rank}</span>
             </div>
             <div className="progress-track">
               <div

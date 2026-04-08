@@ -10,6 +10,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 - `docs/README.md` — プロジェクトの目的・スコープ・中核機能
 - `docs/architecture.md` — 技術構成・データフロー・**外部連携の方針**
+- `docs/screens.md` — **各画面の責務・載せる要素・データソース**
 - `docs/design-system.md` — UI トークン・コンポーネント原則
 - `docs/gamification-spec.md` — ゲーミフィケーション要素の検討メモ（**検討中**）
 

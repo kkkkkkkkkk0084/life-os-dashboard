@@ -48,13 +48,13 @@ export default function Overview() {
   return (
     <div ref={mainRef}>
       <HeroSection />
-      <div className="max-w-[920px] mx-auto px-8 pb-24">
-        <div className="reveal opacity-0"><TodaySection /></div>
-        <div className="reveal opacity-0"><StatusSection /></div>
-        <div className="reveal opacity-0"><QuestsSection /></div>
-        <div className="reveal opacity-0"><GoldSection /></div>
-        <div className="reveal opacity-0"><WeekSection /></div>
-        <div className="reveal opacity-0"><ActivitySection /></div>
+      <div className="max-w-[1280px] mx-auto px-8 pb-6 grid grid-cols-12 gap-3">
+        <div className="reveal opacity-0 col-span-12"><TodaySection /></div>
+        <div className="reveal opacity-0 col-span-12 lg:col-span-8"><StatusSection /></div>
+        <div className="reveal opacity-0 col-span-12 lg:col-span-4"><GoldSection /></div>
+        <div className="reveal opacity-0 col-span-12 lg:col-span-7"><QuestsSection /></div>
+        <div className="reveal opacity-0 col-span-12 lg:col-span-5"><ActivitySection /></div>
+        <div className="reveal opacity-0 col-span-12"><WeekSection /></div>
       </div>
     </div>
   );

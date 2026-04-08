@@ -64,19 +64,19 @@ const DOT_STYLES: Record<string, string> = {
 
 export default function QuestsSection() {
   return (
-    <section className="mb-16">
-      <div className="flex items-baseline justify-between mb-5">
-        <h2 className="section-title font-[family-name:var(--font-display)]">Quests</h2>
-        <span className="text-xs text-text-3 cursor-pointer hover:text-text-2 transition-colors duration-300">View all →</span>
+    <section>
+      <div className="flex items-baseline justify-between mb-2">
+        <h2 className="section-title font-[family-name:var(--font-display)] !text-lg">Quests</h2>
+        <span className="text-[10px] text-text-3 cursor-pointer hover:text-text-2 transition-colors duration-300">View all →</span>
       </div>
       <div className="card-flat">
         {QUESTS.map((quest, i) => (
           <div
             key={i}
-            className="flex items-center gap-3.5 px-5 py-3 border-b border-card-border last:border-b-0 hover:bg-white/2 transition-all duration-200 cursor-default"
+            className="flex items-center gap-2.5 px-3 py-2 border-b border-card-border last:border-b-0 hover:bg-white/2 transition-all duration-200 cursor-default"
           >
             {/* Status dot */}
-            <div className={`w-4 h-4 rounded-full border-[1.5px] ${DOT_STYLES[quest.status]} flex-shrink-0 relative`}>
+            <div className={`w-3 h-3 rounded-full border-[1.5px] ${DOT_STYLES[quest.status]} flex-shrink-0 relative`}>
               {(quest.status === 'urgent' || quest.status === 'progress') && (
                 <div
                   className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full ${
@@ -93,8 +93,8 @@ export default function QuestsSection() {
 
             {/* Content */}
             <div className="flex-1 min-w-0">
-              <div className="text-[15px] text-text-1 truncate">{quest.text}</div>
-              <div className="flex items-center gap-1.5 mt-1">
+              <div className="text-[13px] text-text-1 truncate">{quest.text}</div>
+              <div className="flex items-center gap-1.5 mt-0.5">
                 {quest.time && (
                   <span className="font-[family-name:var(--font-mono)] text-[10px] text-text-3 mr-1">{quest.time}</span>
                 )}

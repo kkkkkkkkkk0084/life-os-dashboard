@@ -8,6 +8,7 @@
 
 - [プロジェクト概要](./docs/README.md)
 - [アーキテクチャ・外部連携の方針](./docs/architecture.md)
+- [画面仕様](./docs/screens.md)
 - [デザインシステム](./docs/design-system.md)
 - [ゲーミフィケーション検討メモ](./docs/gamification-spec.md)（検討中）
 
