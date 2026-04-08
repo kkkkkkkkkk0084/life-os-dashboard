@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { createGoal, deleteGoal, updateGoal } from '@/lib/goals';
+import { createIssue } from '@/lib/github';
 
 export async function createGoalAction(formData: FormData) {
   const title = String(formData.get('title') ?? '').trim();
@@ -40,4 +41,52 @@ export async function updateGoalMilestonesAction(formData: FormData) {
   await updateGoal(id, { milestoneNumbers });
   revalidatePath('/missions');
   revalidatePath(`/missions/goal/${id}`);
+}
+
+/**
+ * GitHub Issue を新規作成する。
+ *
+ * フォームフィールド:
+ *   - title (必須)
+ *   - dueDate (任意, YYYY-MM-DD)
+ *   - milestone (任意, 数値)
+ *   - labels (任意, カンマ区切り)
+ */
+export async function createTaskAction(formData: FormData): Promise<{ ok: boolean; error?: string }> {
+  const title = String(formData.get('title') ?? '').trim();
+  if (!title) {
+    return { ok: false, error: 'タイトルを入力してください' };
+  }
+
+  const dueDateRaw = String(formData.get('dueDate') ?? '').trim();
+  const dueDate = /^\d{4}-\d{2}-\d{2}$/.test(dueDateRaw) ? dueDateRaw : null;
+
+  const milestoneRaw = String(formData.get('milestone') ?? '').trim();
+  const milestone = /^\d+$/.test(milestoneRaw) ? Number(milestoneRaw) : null;
+
+  const labelsRaw = String(formData.get('labels') ?? '').trim();
+  const labels = labelsRaw
+    ? labelsRaw
+        .split(',')
+        .map((s) => s.trim())
+        .filter((s) => s.length > 0)
+    : [];
+
+  const result = await createIssue({
+    title,
+    dueDate,
+    milestone,
+    labels,
+  });
+
+  if (!result) {
+    return { ok: false, error: 'GitHub への作成に失敗しました' };
+  }
+
+  revalidatePath('/');
+  revalidatePath('/missions');
+  if (milestone) {
+    revalidatePath(`/missions/project/${milestone}`);
+  }
+  return { ok: true };
 }

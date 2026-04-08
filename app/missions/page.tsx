@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { listGoals } from '@/lib/goals';
 import { getMilestones, getOpenIssues, classifyDueDate, type DueStatus } from '@/lib/github';
 import NewGoalForm from '@/components/missions/NewGoalForm';
+import NewTaskForm from '@/components/missions/NewTaskForm';
 
 export const dynamic = 'force-dynamic';
 
@@ -80,11 +81,14 @@ export default async function MissionsPage() {
 
       {/* All Tasks: 全 Open Issue を期限優先順で一覧表示 */}
       <section className="mt-12">
-        <header className="flex items-baseline justify-between mb-3">
+        <header className="flex items-baseline justify-between mb-3 gap-3">
           <h2 className="text-text-3 text-xs uppercase tracking-widest">
             Tasks ({allIssues.length})
           </h2>
-          <span className="text-text-3 text-[10px]">期限が近い順</span>
+          <div className="flex items-center gap-3">
+            <span className="text-text-3 text-[10px]">期限が近い順</span>
+            <NewTaskForm />
+          </div>
         </header>
 
         {allIssues.length === 0 ? (

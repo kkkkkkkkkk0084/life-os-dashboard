@@ -1,6 +1,15 @@
 import Link from 'next/link';
 import { getOpenIssues, classifyDueDate, type DueStatus } from '@/lib/github';
 import { OVERVIEW_TASK_LIMIT } from '@/lib/labels';
+import NewTaskForm from '@/components/missions/NewTaskForm';
+
+function todayJst(): string {
+  const now = new Date();
+  const jst = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Tokyo' }));
+  return `${jst.getFullYear()}-${String(jst.getMonth() + 1).padStart(2, '0')}-${String(
+    jst.getDate()
+  ).padStart(2, '0')}`;
+}
 
 const STATUS_STYLE: Record<DueStatus, { label: string; className: string }> = {
   overdue: { label: '期限切れ', className: 'text-red' },
@@ -23,13 +32,16 @@ export default async function TodayTasks() {
 
   return (
     <section className="card-flat p-5">
-      <header className="flex items-baseline justify-between mb-4">
+      <header className="flex items-baseline justify-between mb-4 gap-3">
         <h2 className="font-[family-name:var(--font-display)] text-base font-medium text-text-1">
           Today&apos;s Tasks
         </h2>
-        <Link href="/missions" className="text-text-3 text-xs hover:text-text-2">
-          All ({allIssues.length}) →
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link href="/missions" className="text-text-3 text-xs hover:text-text-2">
+            All ({allIssues.length}) →
+          </Link>
+          <NewTaskForm defaultDueDate={todayJst()} buttonLabel="+ Task" />
+        </div>
       </header>
 
       {issues.length === 0 ? (

@@ -176,6 +176,43 @@ export async function getMilestone(milestoneNumber: number): Promise<GitHubMiles
 }
 
 /**
+ * 新しい Issue を作成する。
+ *
+ * - dueDate を渡すと body 先頭に `Due: YYYY-MM-DD` 行を自動付与する
+ * - milestone は number で指定（GitHub API 仕様）
+ */
+export async function createIssue(input: {
+  title: string;
+  body?: string | null;
+  dueDate?: string | null;
+  labels?: string[];
+  milestone?: number | null;
+}): Promise<GitHubIssue | null> {
+  // body 構築: Due: 行 + 元 body
+  const lines: string[] = [];
+  if (input.dueDate) lines.push(`Due: ${input.dueDate}`);
+  if (input.body && input.body.trim()) {
+    if (lines.length > 0) lines.push('');
+    lines.push(input.body.trim());
+  }
+  const body = lines.length > 0 ? lines.join('\n') : null;
+
+  const payload: Record<string, unknown> = { title: input.title };
+  if (body !== null) payload.body = body;
+  if (input.labels && input.labels.length > 0) payload.labels = input.labels;
+  if (input.milestone) payload.milestone = input.milestone;
+
+  const res = await fetch(`${API_BASE}/issues`, {
+    method: 'POST',
+    headers: { ...authHeaders(), 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) return null;
+  const issue: GitHubIssue = await res.json();
+  return { ...issue, dueDate: parseIssueDueDate(issue.body) };
+}
+
+/**
  * リポジトリにラベルが存在しなければ作成する。
  * 既存ラベルがある場合は何もしない。
  */

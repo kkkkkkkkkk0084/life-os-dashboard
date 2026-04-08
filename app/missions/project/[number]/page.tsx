@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getMilestone, getIssuesByMilestone } from '@/lib/github';
+import NewTaskForm from '@/components/missions/NewTaskForm';
 
 export const dynamic = 'force-dynamic';
 
@@ -49,9 +50,12 @@ export default async function ProjectPage({
         </a>
       </header>
 
-      <h2 className="text-text-3 text-xs uppercase tracking-widest mb-3">
-        Tasks ({openIssues.length} open / {issues.length} total)
-      </h2>
+      <div className="flex items-baseline justify-between mb-3 gap-3">
+        <h2 className="text-text-3 text-xs uppercase tracking-widest">
+          Tasks ({openIssues.length} open / {issues.length} total)
+        </h2>
+        <NewTaskForm milestone={milestoneNumber} />
+      </div>
 
       {issues.length === 0 ? (
         <div className="card-flat p-8 text-center">
