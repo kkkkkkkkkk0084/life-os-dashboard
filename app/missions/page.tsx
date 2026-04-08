@@ -52,7 +52,7 @@ export default async function MissionsPage() {
           </p>
         </div>
       ) : (
-        <ul className="grid gap-3">
+        <ul className="grid grid-cols-1 gap-3">
           {goals.map((goal) => (
             <li key={goal.id}>
               <Link
@@ -97,15 +97,15 @@ export default async function MissionsPage() {
             未完了タスクなし
           </div>
         ) : (
-          <ul className="grid gap-2">
+          <ul className="grid grid-cols-1 gap-2">
             {allIssues.map((issue) => {
               const status = classifyDueDate(issue.dueDate);
               const badge = STATUS_BADGE[status];
               return (
-                <li key={issue.id}>
+                <li key={issue.id} className="min-w-0">
                   <Link
                     href={`/missions/task/${issue.number}`}
-                    className="card-flat px-4 py-3 flex items-center gap-3"
+                    className="card-flat px-4 py-3 flex items-center gap-3 min-w-0"
                   >
                     <span className="text-text-3 font-mono text-[10px] shrink-0 w-8">
                       #{issue.number}
@@ -113,8 +113,9 @@ export default async function MissionsPage() {
                     <span className="text-text-1 text-sm truncate flex-1 min-w-0">
                       {issue.title}
                     </span>
+                    {/* labels はモバイルで非表示（情報過多 + overflow 防止） */}
                     {issue.labels.length > 0 && (
-                      <div className="flex gap-1 shrink-0">
+                      <div className="hidden md:flex gap-1 shrink-0">
                         {issue.labels.slice(0, 3).map((label) => (
                           <span
                             key={label.name}
@@ -147,7 +148,7 @@ export default async function MissionsPage() {
           <h2 className="text-text-3 text-xs uppercase tracking-widest mb-3">
             All Open Projects (Milestones)
           </h2>
-          <ul className="grid gap-2">
+          <ul className="grid grid-cols-1 gap-2">
             {milestones.map((m) => (
               <li key={m.id}>
                 <Link

@@ -60,7 +60,7 @@ export default function NewTaskForm({
     <form
       ref={formRef}
       action={handleSubmit}
-      className="card-flat p-4 w-full max-w-md flex flex-col gap-3"
+      className="card-flat p-4 w-full max-w-full sm:max-w-md flex flex-col gap-3"
     >
       <div className="flex flex-col gap-1.5">
         <label htmlFor="task-title" className="text-text-3 text-[10px] uppercase tracking-widest">
