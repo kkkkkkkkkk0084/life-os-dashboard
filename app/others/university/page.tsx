@@ -32,7 +32,7 @@ function ProgressRow({ label, value, max }: { label: string; value: number; max:
   );
 }
 
-export default function AcademicPage() {
+export default function UniversityPage() {
   const pct = Math.round((ACADEMIC.acquired / ACADEMIC.total) * 100);
   const remaining = ACADEMIC.total - ACADEMIC.acquired;
 
@@ -40,7 +40,11 @@ export default function AcademicPage() {
     <>
       {/* 概要カード */}
       <section className="card-flat p-6 mb-4">
-        <ProgressRow label={`卒業まで（目標 ${ACADEMIC.total} 単位）`} value={ACADEMIC.acquired} max={ACADEMIC.total} />
+        <ProgressRow
+          label={`卒業まで（目標 ${ACADEMIC.total} 単位）`}
+          value={ACADEMIC.acquired}
+          max={ACADEMIC.total}
+        />
 
         <div className="grid grid-cols-4 gap-4 mt-6">
           {[

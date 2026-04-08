@@ -1,4 +1,4 @@
-export default function AcademicNotesPage() {
+export default function UniversityNotesPage() {
   return (
     <div className="card-flat p-8 text-center">
       <p className="text-text-2 text-sm mb-2">学業メモ</p>

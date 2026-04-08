@@ -6,8 +6,8 @@ const NAV_ITEMS = [
   { href: '/', label: 'Overview' },
   { href: '/missions', label: 'Missions' },
   { href: '/schedule', label: 'Schedule' },
-  { href: '/academic', label: 'Academic' },
   { href: '/health', label: 'Health' },
+  { href: '/others', label: 'Others' },
 ];
 
 export default function Nav() {

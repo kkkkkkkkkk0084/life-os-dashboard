@@ -1,4 +1,4 @@
-export default function AcademicCoursesPage() {
+export default function UniversityCoursesPage() {
   return (
     <div className="card-flat p-8 text-center">
       <p className="text-text-2 text-sm mb-2">科目一覧</p>

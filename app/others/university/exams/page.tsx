@@ -1,4 +1,4 @@
-export default function AcademicExamsPage() {
+export default function UniversityExamsPage() {
   return (
     <div className="card-flat p-8 text-center">
       <p className="text-text-2 text-sm mb-2">試験予定</p>
