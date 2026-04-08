@@ -1,5 +1,5 @@
 import { ACADEMIC } from '@/constants/academic';
-import ProgressBar from '@/components/ProgressBar';
+import ProgressBar from '@/components/ui/ProgressBar';
 
 export default function AcademicPage() {
   const pct = Math.round((ACADEMIC.acquired / ACADEMIC.total) * 100);

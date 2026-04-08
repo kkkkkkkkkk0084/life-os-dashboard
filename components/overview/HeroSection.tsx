@@ -1,13 +1,11 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export default function HeroSection() {
-  const [greeting, setGreeting] = useState('');
-
-  useEffect(() => {
+  const [greeting] = useState(() => {
     const h = new Date().getHours();
-    setGreeting(h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening');
-  }, []);
+    return h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening';
+  });
 
   return (
     <section className="min-h-[100vh] max-h-[1000px] flex flex-col items-center justify-center text-center px-8 pb-20 relative overflow-hidden">
@@ -24,7 +22,7 @@ export default function HeroSection() {
         className="font-[family-name:var(--font-mono)] text-xs text-text-2 tracking-[1.5px] uppercase mb-5 opacity-0"
         style={{ animation: 'fadeUp 0.7s 0.2s ease forwards' }}
       >
-        Dashboard
+        This Is What I Do
       </p>
 
       <h1

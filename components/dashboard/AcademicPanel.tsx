@@ -1,4 +1,4 @@
-import ProgressBar from './ProgressBar';
+import ProgressBar from '../ui/ProgressBar';
 import { ACADEMIC } from '@/constants/academic';
 
 export default function AcademicPanel() {

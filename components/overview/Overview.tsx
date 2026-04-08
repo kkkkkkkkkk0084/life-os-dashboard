@@ -1,12 +1,12 @@
 'use client';
 import { useEffect, useRef } from 'react';
-import HeroSection from './overview/HeroSection';
-import TodaySection from './overview/TodaySection';
-import StatusSection from './overview/StatusSection';
-import QuestsSection from './overview/QuestsSection';
-import WeekSection from './overview/WeekSection';
-import ActivitySection from './overview/ActivitySection';
-import GoldSection from './overview/GoldSection';
+import HeroSection from './HeroSection';
+import TodaySection from './TodaySection';
+import StatusSection from './StatusSection';
+import QuestsSection from './QuestsSection';
+import WeekSection from './WeekSection';
+import ActivitySection from './ActivitySection';
+import GoldSection from './GoldSection';
 
 export default function Overview() {
   const mainRef = useRef<HTMLDivElement>(null);
