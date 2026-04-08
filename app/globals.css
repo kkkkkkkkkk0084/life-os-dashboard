@@ -40,8 +40,13 @@ body {
   color: var(--color-text-1);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* 横方向のはみ出しを clip（モバイルでの予期せぬ overflow を防ぐ安全網） */
-  overflow-x: hidden;
+  /*
+   * 横方向のはみ出しを clip。
+   * overflow-x: hidden だと body が scroll container になり、
+   * html の overflow-y: scroll と競合して縦スクロールが効かなくなるため、
+   * scroll container を作らない overflow-x: clip を使う。
+   */
+  overflow-x: clip;
 }
 
 ::selection {
