@@ -32,8 +32,8 @@ export default async function LifeLogSummary() {
   ];
 
   return (
-    <section className="card-flat p-5">
-      <header className="flex items-baseline justify-between mb-4">
+    <section className="card-flat p-4">
+      <header className="flex items-baseline justify-between mb-3">
         <h2 className="font-[family-name:var(--font-display)] text-base font-medium text-text-1">
           生活ログ
         </h2>

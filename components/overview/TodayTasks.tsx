@@ -22,8 +22,8 @@ export default async function TodayTasks() {
   const issues = allIssues.slice(0, OVERVIEW_TASK_LIMIT);
 
   return (
-    <section className="card-flat p-5">
-      <header className="flex items-baseline justify-between mb-4">
+    <section className="card-flat p-4">
+      <header className="flex items-baseline justify-between mb-3">
         <h2 className="font-[family-name:var(--font-display)] text-base font-medium text-text-1">
           Today&apos;s Tasks
         </h2>
@@ -43,7 +43,7 @@ export default async function TodayTasks() {
               <li key={issue.id}>
                 <Link
                   href={`/missions/task/${issue.number}`}
-                  className="flex items-center gap-3 px-2 py-2 rounded-md hover:bg-white/4 transition-colors"
+                  className="flex items-center gap-3 px-2 py-1.5 rounded-md hover:bg-white/4 transition-colors"
                 >
                   <span className="w-3.5 h-3.5 rounded-full border border-text-3 shrink-0" />
                   <span className="text-sm text-text-1 truncate flex-1 min-w-0">
