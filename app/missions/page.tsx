@@ -1,17 +1,29 @@
 import Link from 'next/link';
 import { listGoals } from '@/lib/goals';
-import { getMilestones, getOpenIssuesWithoutLabel } from '@/lib/github';
+import { getMilestones, getOpenIssues, classifyDueDate, type DueStatus } from '@/lib/github';
 import NewGoalForm from '@/components/missions/NewGoalForm';
-import TodayToggleButton from '@/components/missions/TodayToggleButton';
-import { TODAY_LABEL } from '@/lib/labels';
 
 export const dynamic = 'force-dynamic';
 
+const STATUS_BADGE: Record<DueStatus, { label: string; color?: string }> = {
+  overdue: { label: '期限切れ', color: 'var(--color-red)' },
+  today: { label: '今日', color: 'var(--color-amber)' },
+  soon: { label: '近日' },
+  future: { label: '' },
+  none: { label: '' },
+};
+
+function formatDueLabel(dueDate: string | null | undefined): string {
+  if (!dueDate) return '';
+  const m = dueDate.match(/^\d{4}-(\d{2})-(\d{2})$/);
+  return m ? `${parseInt(m[1])}/${parseInt(m[2])}` : dueDate;
+}
+
 export default async function MissionsPage() {
-  const [goals, milestones, inbox] = await Promise.all([
+  const [goals, milestones, allIssues] = await Promise.all([
     listGoals(),
     getMilestones('open'),
-    getOpenIssuesWithoutLabel(TODAY_LABEL, 50),
+    getOpenIssues({ limit: 100 }),
   ]);
 
   const milestoneCountByGoal = new Map<string, number>(
@@ -34,7 +46,7 @@ export default async function MissionsPage() {
           <p className="text-text-3 text-xs">
             年単位の大目標を追加したくなったら、右上の「+ New Goal」から作成できます。
             <br />
-            日々のタスクは Overview の Today&apos;s Tasks に表示されます。
+            日々のタスクは下の Tasks セクションで確認できます。
           </p>
         </div>
       ) : (
@@ -66,34 +78,36 @@ export default async function MissionsPage() {
         </ul>
       )}
 
-      {/* Inbox: today ラベルがない open Issue 一覧 */}
+      {/* All Tasks: 全 Open Issue を期限優先順で一覧表示 */}
       <section className="mt-12">
         <header className="flex items-baseline justify-between mb-3">
           <h2 className="text-text-3 text-xs uppercase tracking-widest">
-            Inbox ({inbox.length})
+            Tasks ({allIssues.length})
           </h2>
-          <span className="text-text-3 text-[10px]">
-            「+ Today」で Overview に表示
-          </span>
+          <span className="text-text-3 text-[10px]">期限が近い順</span>
         </header>
 
-        {inbox.length === 0 ? (
+        {allIssues.length === 0 ? (
           <div className="card-flat p-6 text-center text-text-3 text-sm">
-            Inbox は空です
+            未完了タスクなし
           </div>
         ) : (
           <ul className="grid gap-2">
-            {inbox.map((issue) => (
-              <li key={issue.id}>
-                <div className="card-flat px-4 py-3 flex items-center gap-3">
+            {allIssues.map((issue) => {
+              const status = classifyDueDate(issue.dueDate);
+              const badge = STATUS_BADGE[status];
+              return (
+                <li key={issue.id}>
                   <Link
                     href={`/missions/task/${issue.number}`}
-                    className="flex items-center gap-3 flex-1 min-w-0"
+                    className="card-flat px-4 py-3 flex items-center gap-3"
                   >
-                    <span className="text-text-3 font-mono text-[10px] shrink-0">
+                    <span className="text-text-3 font-mono text-[10px] shrink-0 w-8">
                       #{issue.number}
                     </span>
-                    <span className="text-text-1 text-sm truncate">{issue.title}</span>
+                    <span className="text-text-1 text-sm truncate flex-1 min-w-0">
+                      {issue.title}
+                    </span>
                     {issue.labels.length > 0 && (
                       <div className="flex gap-1 shrink-0">
                         {issue.labels.slice(0, 3).map((label) => (
@@ -106,11 +120,18 @@ export default async function MissionsPage() {
                         ))}
                       </div>
                     )}
+                    {issue.dueDate && (
+                      <span
+                        className="font-[family-name:var(--font-mono)] text-[10px] shrink-0 px-1.5 py-0.5 rounded border border-border-subtle"
+                        style={badge.color ? { color: badge.color, borderColor: badge.color + '40' } : undefined}
+                      >
+                        {formatDueLabel(issue.dueDate)}
+                      </span>
+                    )}
                   </Link>
-                  <TodayToggleButton issueNumber={issue.number} initiallyToday={false} />
-                </div>
-              </li>
-            ))}
+                </li>
+              );
+            })}
           </ul>
         )}
       </section>

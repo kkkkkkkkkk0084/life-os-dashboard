@@ -36,6 +36,12 @@ export type GitHubIssue = {
   labels: { name: string }[];
   milestone: GitHubMilestone | null;
   html_url: string;
+  /**
+   * Issue body から `Due: YYYY-MM-DD` をパースした結果。
+   * 期限ベースの並べ替えに使う。GitHub API レスポンスには含まれず、
+   * `lib/github.ts` 側で付与する。
+   */
+  dueDate?: string | null;
 };
 
 /**

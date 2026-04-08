@@ -1,8 +1,8 @@
 /**
- * GitHub label の規約定数。
+ * Overview の Today's Tasks に表示するタスクの上限件数。
  *
- * Server Action ファイル (`'use server'`) からは async function しか
- * export できないため、共有する label 名はここに集約する。
+ * 議論中: 5 / 7 / 10 のどれが「人間が 1 日で捌ける数」として妥当か。
+ * 今は 7 ± 2（ミラーの法則）の中央値として 7 を採用。
+ * 運用してみて多すぎ/少なすぎなら調整する。
  */
-
-export const TODAY_LABEL = 'today';
+export const OVERVIEW_TASK_LIMIT = 7;
