@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { listGoals } from '@/lib/goals';
 import { getMilestones } from '@/lib/github';
+import NewGoalForm from '@/components/missions/NewGoalForm';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,14 +14,12 @@ export default async function MissionsPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-8 py-10">
-      <header className="mb-8 flex items-end justify-between gap-4">
+      <header className="mb-8 flex items-start justify-between gap-4">
         <div>
           <p className="text-text-3 text-sm mb-1">Missions</p>
           <h1 className="section-title">Goals</h1>
         </div>
-        <button className="btn-primary text-sm" disabled title="未実装">
-          + New Goal
-        </button>
+        <NewGoalForm />
       </header>
 
       {goals.length === 0 ? (
